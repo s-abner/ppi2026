@@ -210,11 +210,91 @@ console.log(
 );
 
 // Object
-const pessoa = {
+const pessoa = new Object({
     nome: 'Zé Vaqueiro',
     idade: 25,
     profissão: 'Cantor/Compositor'
-};
+});
 
 console.log(pessoa.nome);
 console.log(pessoa['nome']);
+console.log(Object.keys(pessoa));
+console.log(Object.values(pessoa));
+
+console.log(pessoa);
+
+const pessoa2 = { ...pessoa, hobby: 'Vaquejada'}
+console.log(pessoa2);
+
+// Atribuição por desestruturação
+const { nome, idade } = pessoa2;
+console.log(nome, idade);
+
+// Construtor
+function Product(name, sto, ram, price, qty, category){
+    this.name = name;
+    this.sto = sto;
+    this.ram = ram;
+    this.price = price;
+    this.qty = qty;
+    this.category = category;
+}
+
+const p1 = new Product('IPhone', 256, 16, 5000, 10, 'Celular');
+const p2 = new Product('IPad', 512, 16, 8000, 20, 'Tablet');
+const p3 = new Product('Macbook', 1024, 24, 15000, 30, 'Notebook');
+const p4 = new Product('IPhone Pro Max', 256, 16, 7000, 15, 'Celular');
+const p5 = new Product('IPad Pro', 512, 16, 10000, 25, 'Tablet');
+const p6 = new Product('Macbook Pro', 1024, 24, 25000, 35, 'Notebook');
+
+const estoque = [ {...p1}, {...p2}, {...p3}, {...p4}, {...p5}, {...p6}];
+console.log(estoque);
+
+/* DESAFIO 1
+
+    a) Valor total de todos os produtos em estoque
+    b) Ordene os produtos por nome (crescente/crescente)
+    c) Ordene os produtos por preço (crescente/crescente)
+    d) Filtre os produtos de acordo uma categoria
+
+*/
+
+// a)
+const valorTotal = estoque.reduce((valor, p) => valor + p.price * p.qty, 0).toFixed(2);
+console.log(`Valor total: R$ ${valorTotal}`);
+
+// b)
+const nomeCrescente = [...estoque].sort((a, b) => {
+    if (a.name < b.name) return -1;
+    if (a.name > b.name) return 1;
+    return 0;
+});
+console.log('Ordem crescente:', nomeCrescente);
+
+const nomeDecrescente = [...estoque].sort((a, b) => {
+    if (a.name < b.name) return 1;
+    if (a.name > b.name) return -1;
+    return 0;
+});
+console.log('Ordem decrescente:', nomeDecrescente);
+
+// c)
+const precoCrescente = [...estoque].sort((a, b) => {
+    return a.price - b.price;
+});
+console.log('Preço crescente:', precoCrescente);
+
+const precoDecrescente = [...estoque].sort((a, b) => {
+    return b.price - a.price;
+});
+console.log('Preço decrescente:', precoDecrescente);
+
+// d)
+const celulares = estoque.filter(produto => produto.category === 'Celular');
+console.log('Celulares:', celulares);
+
+const tablets = estoque.filter(produto => produto.category === 'Tablet');
+console.log('Tablets:', tablets);
+
+const notebooks = estoque.filter(produto => produto.category === 'Notebook');
+console.log('Notebooks:', notebooks);
