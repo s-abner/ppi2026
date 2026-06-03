@@ -298,3 +298,69 @@ console.log('Tablets:', tablets);
 
 const notebooks = estoque.filter(produto => produto.category === 'Notebook');
 console.log('Notebooks:', notebooks);
+
+/* DESAFIO 2
+Questão 1 — Média de notas e filtro de aprovados
+    Use map() e reduce() para gerar um novo array de objetos no formato:
+        { nome: "Ana", media: 8 }
+    Use filter() para manter apenas os alunos com média maior ou igual a 7.
+    Use sort() para ordenar os alunos aprovados da maior média para a menor.
+
+Questão 2 — Catálogo de filmes com busca e ordenação
+    Crie uma função que:
+    Receba um gênero como parâmetro e use filter() para retornar apenas os filmes daquele gênero.
+    Receba também um critério de ordenação e use sort() para ordenar:
+        por ano, do mais recente para o mais antigo; ou
+        por título, em ordem alfabética.
+    Use map() para transformar o resultado em um array de strings com o formato:
+        "Interestelar (2014) - ficção";
+*/
+
+//Questão 1:
+const alunos = [
+  { nome: "Ana", notas: [8, 7, 9] },
+  { nome: "Bruno", notas: [5, 6, 5] },
+  { nome: "Carla", notas: [9, 9, 10] },
+  { nome: "Diego", notas: [6, 7, 8] },
+];
+const aprovados = alunos.map((aluno) => {
+    const soma = aluno.notas.reduce((total, nota) => total + nota, 0);
+    const media = soma / aluno.notas.length;
+
+    return {
+      nome: aluno.nome,
+      media: Number(media.toFixed(2)),
+    };
+  })
+  .filter((aluno) => aluno.media >= 7)
+  .sort((a, b) => b.media - a.media);
+console.log(aprovados);
+
+
+// Questão 2:
+const filmes = [
+  { titulo: "O Senhor dos Anéis", ano: 2001, genero: "fantasia" },
+  { titulo: "Matrix", ano: 1999, genero: "ficção" },
+  { titulo: "Interestelar", ano: 2014, genero: "ficção" },
+  { titulo: "Divertida Mente", ano: 2015, genero: "animação" },
+];
+
+function buscarFilmes(genero, criterio) {
+  return filmes
+    .filter((filme) => filme.genero === genero)
+    .sort((a, b) => {
+      if (criterio === "ano") {
+        return b.ano - a.ano;
+      }
+      if (criterio === "titulo") {
+        return a.titulo.localeCompare(b.titulo);
+      }
+
+      return 0;
+    })
+    .map(
+      (filme) =>
+        `${filme.titulo} (${filme.ano}) - ${filme.genero}`
+    );
+}
+console.log(buscarFilmes("ficção", "ano"));
