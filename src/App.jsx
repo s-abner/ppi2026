@@ -27,10 +27,17 @@ function App() {
 
   function handleToggleFeatured(id) {
     setNotices((notices) =>
-      notices.map(
-        (notice) =>
-          notice.id === id ? { ...notice, featured: !notice.featured } : notice,
-      ),
+      notices.map((notice) =>
+        notice.id === id
+          ? { ...notice, featured: !notice.featured }
+          : notice
+      )
+    );
+  }
+
+  function handleDeleteNotice(id) {
+    setNotices((notices) =>
+      notices.filter((notice) => notice.id !== id)
     );
   }
 
@@ -40,7 +47,10 @@ function App() {
         title={"Programação para Internet"}
         subtitle={"Curso Técnico Integrado em Informática"}
       />
-      <NoticeList notices={notices} onToggleFeatured={handleToggleFeatured} />
+
+      <NoticeList notices={notices}
+        onToggleFeatured={handleToggleFeatured}
+        onDeleteNotice={handleDeleteNotice} />
     </>
   );
 }
